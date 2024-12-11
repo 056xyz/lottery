@@ -34,7 +34,7 @@ contract HelperConfig is Script {
             interval: 30,
             vrfCoordinator: 0x9DdfaCa8183c41ad55329BdeeD9F6A8d53168B1B,
             gasLane: 0x787d74caea10b2b357790d5b5247c2f63d1d91572a9846f780606e4d953677ae,
-            subscriptionId: 1893, //Update this with our subId!
+            subscriptionId: 17346639216166787442230766102479719778682356989377641266893016248348371230915,
             callbackGasLimit: 40000,
             link: 0x779877A7B0D9E8603169DdbD7836e478b4624789,
             deployerKey: vm.envUint("PRIVATE_KEY")
@@ -50,7 +50,7 @@ contract HelperConfig is Script {
         uint96 gasPriceLink = 1e9;
 
         vm.startBroadcast();
-        VRFCoordinatorV2_5Mock vrfCoordinatorV2_5Mock = new VRFCoordinatorV2_5Mock(baseFee, gasPriceLink, 4e17);
+        VRFCoordinatorV2_5Mock vrfCoordinatorV2_5Mock = new VRFCoordinatorV2_5Mock(baseFee, gasPriceLink, 4e15);
 
         LinkToken linkToken = new LinkToken();
         vm.stopBroadcast();
@@ -61,7 +61,7 @@ contract HelperConfig is Script {
             vrfCoordinator: address(vrfCoordinatorV2_5Mock),
             gasLane: 0x787d74caea10b2b357790d5b5247c2f63d1d91572a9846f780606e4d953677ae,
             subscriptionId: 0,
-            callbackGasLimit: 500000,
+            callbackGasLimit: 40000,
             link: address(linkToken),
             deployerKey: DEFAULT_ANVIL_KEY
         });

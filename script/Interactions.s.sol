@@ -16,9 +16,11 @@ contract CreateSubscription is Script {
     }
 
     function createSubscription(address vrfCoordinator, uint256 deployerKey) public returns (uint256) {
+        HelperConfig helperConfig = new HelperConfig();
+        (,,,,, uint256 subId,,) = helperConfig.activeNetworkConfig();
         console.log("Creating subsription on ChainId: ", block.chainid);
         vm.startBroadcast(deployerKey);
-        uint256 subId = VRFCoordinatorV2_5Mock(vrfCoordinator).createSubscription();
+        subId = VRFCoordinatorV2_5Mock(vrfCoordinator).createSubscription();
         vm.stopBroadcast();
 
         console.log("Your sub Id is: ", subId);
@@ -32,7 +34,7 @@ contract CreateSubscription is Script {
 }
 
 contract FundSubscription is Script {
-    uint96 public constant FUND_AMOUNT = 3 ether;
+    uint96 public constant FUND_AMOUNT = 0.1 ether;
 
     function fundSubscriptionUsingConfig() public {
         HelperConfig helperConfig = new HelperConfig();
@@ -53,6 +55,7 @@ contract FundSubscription is Script {
         } else {
             vm.startBroadcast(deployerKey);
             LinkToken(link).transferAndCall(vrfCoordinator, FUND_AMOUNT, abi.encode(subId));
+
             vm.stopBroadcast();
         }
     }
@@ -67,6 +70,7 @@ contract AddConsumer is Script {
         console.log("Adding consumer contract: ", raffle);
         console.log("Using vrfCoordinator: ", vrfCoordinator);
         console.log("On ChainID: ", block.chainid);
+        console.log("On ChainID: ", subId);
 
         vm.startBroadcast(deployerKey);
         VRFCoordinatorV2_5Mock(vrfCoordinator).addConsumer(subId, raffle);
